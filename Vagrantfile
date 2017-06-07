@@ -1,12 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Automatically install hostmanager plugin
-required_plugins = %w( vagrant-hostmanager )
-required_plugins.each do |plugin|
-    exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
-end
-
 Vagrant.configure(2) do |config|
 
   # We're using Ubuntu 16.04 - this one doesn't have a problem with GRUB on apt-get update like others do
