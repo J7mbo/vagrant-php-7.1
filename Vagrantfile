@@ -3,8 +3,16 @@
 
 # Automatically install hostmanager plugin
 required_plugins = %w( vagrant-hostmanager )
+needs_restart = false
 required_plugins.each do |plugin|
-    exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
+  unless Vagrant.has_plugin? plugin
+    system "vagrant plugin install #{plugin}"
+    needs_restart = true
+  end
+end
+
+if needs_restart
+  exec "vagrant #{ARGV.join' '}"
 end
 
 Vagrant.configure(2) do |config|
